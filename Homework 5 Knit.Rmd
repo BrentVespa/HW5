@@ -1,0 +1,44 @@
+---
+title: "Homework 5"
+author: "Brent Vespa"
+output: html_document
+date: "`r Sys.Date()`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(mapdata)
+library(ggplot2)
+library(tidyverse)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r code}
+global <- map_data("state")
+mydata <- as_tibble(global)
+
+mydata %>% filter( region == "california") -> california
+
+load("C:/Users/brent/Documents/Classes/Data_Visualization/Tables/wind_turbines.rda")
+mydata2 <- as_tibble(wind_turbines)
+
+mydata2 %>% filter( t_state == "CA") -> wind_ca
+
+gg1 <- ggplot() + geom_polygon(data = california, aes(x=long, y = lat, group = group), color="blue") + 
+  coord_fixed(1.3)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r plot, echo=FALSE}
+gg1 + geom_point(data=wind_ca, aes(xlong, ylat, fill="none"), color="red")
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
